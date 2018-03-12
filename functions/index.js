@@ -1,4 +1,7 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+admin.initializeApp(functions.config().firebase);
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -18,9 +21,43 @@ exports.fetchStageInfo = functions.https.onRequest((req, res) => {
   const terms = parameters['terms'];
   const rule = parameters['rule'];
 
+  const database = admin.database();
+  const ref = database.ref('stages');
+
+  //TODO:Parse terms
+
+  let speech = "";
+  let displayText = "";
+
+  if ( rule === "A") {
+    ref.child('regular/stage').once("value").then((snapshot) => {
+      snapshot.some((childSnapshot) => {
+
+      });
+    }).catch((err) => {
+      console.error("Error: ", err);
+    });
+  } else if ( rule === "B") {
+    ref.child('gachi/stage').once("value").then((snapshot) => {
+      snapshot.some((childSnapshot) => {
+
+      });
+    }).catch((err) => {
+      console.error("Error: ", err);
+    });
+  } else if ( rule === "C") {
+    ref.child('league/stage').once("value").then((snapshot) => {
+      snapshot.some((childSnapshot) => {
+
+      });
+    }).catch((err) => {
+      console.error("Error: ", err);
+    });
+  }
+
   res.send(JSON.stringify({
-    speech: "Bバスパークです",
-    disploayText: "B bass park"
+    speech: "Bbass",
+    disploayText: "Bbass"
   }));
 });
 
