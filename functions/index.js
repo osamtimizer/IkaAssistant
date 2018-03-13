@@ -53,6 +53,7 @@ exports.fetchStageInfo = functions.https.onRequest((req, res) => {
   let displayText = "";
 
   let stages = [];
+  let rule_type = "";
 
   let targetStageRef;
   if ( rule === "レギュラーマッチ") {
@@ -78,6 +79,7 @@ exports.fetchStageInfo = functions.https.onRequest((req, res) => {
         console.log("stages found");
         stages.push(childSnapshot.child('stage_A').val());
         stages.push(childSnapshot.child('stage_B').val());
+        rule_type = childSnapshot.child('rule_type').val();
         itemFound = true;
         return itemFound;
       }
@@ -89,7 +91,7 @@ exports.fetchStageInfo = functions.https.onRequest((req, res) => {
     if(result) {
 
       //must be send response here.
-      speech = terms + "の" + rule + "のステージは、" + stages[0] + "と" + stages[1] + "です";
+      speech = terms + "の" + rule + "は、" + rule_type +  "で、ステージは"  + stages[0] + "と" + stages[1] + "です";
       res.send(JSON.stringify({
         speech: speech,
         displayText: "regular"
